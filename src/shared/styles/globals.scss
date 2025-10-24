@@ -23,13 +23,15 @@ a { color: $primary; text-decoration: none; }
 .segmented button { padding: 6px 12px; background: transparent; color: $text; border: none; cursor: pointer; }
 .segmented .active { background: $primary; color: #001010; }
 
-.movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
-.movie-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.movie-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
+.movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; align-items: stretch; }
+.movie-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.movie-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; display: flex; flex-direction: column; height: 100%; }
 .movie-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
-.movie-card .info { padding: 10px; }
-.movie-card h3 { margin: 0 0 6px; font-size: 16px; }
-.movie-card p { margin: 0; font-size: 13px; color: $muted; }
+/* Ensure poster area has consistent aspect and cards share equal heights */
+.movie-card .fade-image, .movie-card .img-placeholder { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; }
+.movie-card .info { padding: 8px; display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
+.movie-card h3 { margin: 0; font-size: 15px; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; min-height: 1.2em; }
+.movie-card p { margin: 0; font-size: 12px; color: $muted; }
 
 .fade-image { opacity: 0; transition: opacity .4s ease; display: block; width: 100%; height: auto; }
 .fade-image.is-loaded { opacity: 1; }
