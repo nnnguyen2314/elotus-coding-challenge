@@ -29,7 +29,16 @@ const TopRatedContainer: React.FC = () => {
   useEffect(() => {
     const data = active.data;
     if (!data) return;
-    setItems(prev => (page === 1 ? data.results : [...prev, ...data.results]));
+    setItems(prev => {
+      const merged = page === 1 ? data.results : [...prev, ...data.results];
+      // Dedupe by id to avoid duplicates from double-invocation in StrictMode/tests
+      const seen = new Set<number>();
+      return merged.filter(m => {
+        if (seen.has(m.id)) return false;
+        seen.add(m.id);
+        return true;
+      });
+    });
     setTotalPages(data.total_pages);
   }, [active.data, page]);
 

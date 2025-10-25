@@ -23,8 +23,10 @@ describe('TopRatedContainer', () => {
   });
 
   it('renders items when data is loaded', () => {
+    // Provide two distinct items to ensure unique keys and predictable rendering
     const results = [
       { id: 1, title: 'Top 1', release_date: '2018-01-01', poster_path: null, backdrop_path: null, overview: '', vote_average: 8.7 },
+      { id: 2, title: 'Top 2', release_date: '2019-01-01', poster_path: null, backdrop_path: null, overview: '', vote_average: 8.3 },
     ];
     useSearchMovies.mockReturnValue({ isLoading: false, isError: false });
     useTopRated.mockReturnValue({ isLoading: false, isError: false, refetch: jest.fn(), data: { results, total_pages: 1 } });
