@@ -16,7 +16,7 @@ export type RootStateForTests = ReturnType<typeof rootReducer>;
 
 export function createTestStore(preloadedUI: Partial<UIState> = {}) {
   const preloadedState: RootStateForTests = {
-    ui: { viewMode: 'grid', ...preloadedUI } as UIState,
+    ui: { viewMode: 'grid', theme: 'dark', ...preloadedUI } as UIState,
   } as RootStateForTests;
   return configureStore({
     reducer: rootReducer,
