@@ -1,6 +1,6 @@
 # Movies App (TMDB)
 
-A responsive React + TypeScript app that lists movies from The Movie Database (TMDB). It demonstrates a feature-first architecture, React Query for data fetching, Redux Toolkit + Thunk for UI state, React Context for search, React Router for navigation, and SCSS styling. Unit tests are provided with Testing Library + Jest. An e2e placeholder script is included.
+A responsive React + TypeScript app that lists movies from The Movie Database (TMDB). It demonstrates a feature-first architecture, React Query for data fetching, Redux Toolkit + Thunk for UI state, React Context for search, React Router for navigation, and SCSS styling. Unit tests are provided with Testing Library + Jest. Playwright E2E tests are included.
 
 TMDB docs: https://developer.themoviedb.org/reference/intro/getting-started
 
@@ -56,7 +56,9 @@ The app uses TMDB API v4 Bearer authentication. Paste your API Read Access Token
 - npm test — run unit tests
 - npm run build — production build
 - npm run lint — run eslint on src
-- npm run e2e — placeholder e2e script
+- npm run e2e — run Playwright E2E tests (headless)
+- npm run e2e:ui — run Playwright E2E tests with UI mode
+- npm run e2e:install — install Playwright browsers
 
 ## How to Run
 1. Copy .env.sample to .env and add your TMDB API key.

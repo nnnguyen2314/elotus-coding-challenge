@@ -29,7 +29,12 @@
     "test": "react-scripts test",
     "lint": "eslint src --ext .ts,.tsx",
     "eject": "react-scripts eject",
-    "e2e": "echo E2E tests placeholder"
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:install": "playwright install --with-deps"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1"
   },
   "eslintConfig": {
     "extends": [
