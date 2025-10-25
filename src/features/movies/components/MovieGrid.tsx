@@ -13,7 +13,7 @@ const MovieGrid: React.FC<{ movies: Movie[]; layout: 'grid'|'list' }> = ({ movie
     // Render as table view when list mode is selected
     return <MovieTable movies={movies} />;
   }
-  return <div className="movie-grid">{items}</div>;
+  return <div className="movie-grid" role="grid" aria-label="Movies grid">{items}</div>;
 };
 
 export default React.memo(MovieGrid);

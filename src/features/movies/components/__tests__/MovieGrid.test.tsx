@@ -12,7 +12,7 @@ describe('MovieGrid', () => {
   it('renders grid of cards when layout is grid', () => {
     render(<MovieGrid movies={movies} layout="grid" />, { wrapper: withAllProviders() as any });
     expect(screen.getByRole('link', { name: /view details for a/i })).toBeInTheDocument();
-    expect(document.querySelector('.movie-grid')).toBeInTheDocument();
+    expect(screen.getByRole('grid', { name: /movies grid/i })).toBeInTheDocument();
   });
 
   it('renders table when layout is list', () => {
