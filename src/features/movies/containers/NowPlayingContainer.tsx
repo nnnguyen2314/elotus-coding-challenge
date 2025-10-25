@@ -41,11 +41,14 @@ const NowPlayingContainer: React.FC = () => {
   useEffect(() => {
     const el = sentinelRef.current;
     if (!el) return;
+    // Do not attach observer until we know totalPages to avoid immediate extra loads in tests/polyfills
+    if (totalPages === undefined || (totalPages && page >= totalPages)) return;
     const observer = new IntersectionObserver((entries) => {
       const [entry] = entries;
       if (!entry.isIntersecting) return;
       if (active.isLoading || active.isError) return;
-      if (totalPages && page >= totalPages) return;
+      if (totalPages === undefined) return;
+      if (page >= totalPages) return;
       setPage(p => p + 1);
     }, { root: null, threshold: 0.1 });
     observer.observe(el);

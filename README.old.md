@@ -1,1 +1,0 @@
-# elotus-coding-challenge
