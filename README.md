@@ -88,3 +88,6 @@ The project uses the default CRA ESLint config. Run npm run lint.
 - Semantic roles for loader and error messages.
 - Keyboard-focusable cards via link wrappers.
 - Responsive grid using CSS grid and minmax.
+
+## Video walk through
+<video controls src="public/Elostu-coding-challenge.mp4" title="Title"></video>
