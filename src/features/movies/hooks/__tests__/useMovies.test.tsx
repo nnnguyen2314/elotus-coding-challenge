@@ -8,12 +8,35 @@ function Wrapper({ children }: { children: React.ReactNode }) {
   return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
 }
 
-function HookHarness({ variant, query, page = 1 }: { variant: 'now'|'top'|'search'; query?: string; page?: number }) {
-  const res = variant === 'now' ? useNowPlaying(page) : variant === 'top' ? useTopRated(page) : useSearchMovies(query || '', page);
-  return <div>
-    <div data-testid="status">{res.isLoading ? 'loading' : res.isError ? 'error' : 'success'}</div>
-    <div data-testid="has-data">{res.data ? 'yes' : 'no'}</div>
-  </div>;
+// Separate harnesses to avoid conditional hook calls that violate react-hooks/rules-of-hooks
+function NowPlayingHarness({ page = 1 }: { page?: number }) {
+  const res = useNowPlaying(page);
+  return (
+    <div>
+      <div data-testid="status">{res.isLoading ? 'loading' : res.isError ? 'error' : 'success'}</div>
+      <div data-testid="has-data">{res.data ? 'yes' : 'no'}</div>
+    </div>
+  );
+}
+
+function TopRatedHarness({ page = 1 }: { page?: number }) {
+  const res = useTopRated(page);
+  return (
+    <div>
+      <div data-testid="status">{res.isLoading ? 'loading' : res.isError ? 'error' : 'success'}</div>
+      <div data-testid="has-data">{res.data ? 'yes' : 'no'}</div>
+    </div>
+  );
+}
+
+function SearchHarness({ query = '', page = 1 }: { query?: string; page?: number }) {
+  const res = useSearchMovies(query, page);
+  return (
+    <div>
+      <div data-testid="status">{res.isLoading ? 'loading' : res.isError ? 'error' : 'success'}</div>
+      <div data-testid="has-data">{res.data ? 'yes' : 'no'}</div>
+    </div>
+  );
 }
 
 describe('useMovies hooks', () => {
@@ -24,7 +47,7 @@ describe('useMovies hooks', () => {
   });
 
   it('useNowPlaying hits now_playing endpoint with page param', async () => {
-    render(<Wrapper><HookHarness variant="now" page={2} /></Wrapper>);
+    render(<Wrapper><NowPlayingHarness page={2} /></Wrapper>);
     await waitFor(() => expect(screen.getByTestId('has-data')).toHaveTextContent('yes'));
     expect(global.fetch).toHaveBeenCalled();
     const url = (global.fetch as jest.Mock).mock.calls[0][0] as string;
@@ -33,21 +56,21 @@ describe('useMovies hooks', () => {
   });
 
   it('useTopRated hits top_rated endpoint', async () => {
-    render(<Wrapper><HookHarness variant="top" /></Wrapper>);
+    render(<Wrapper><TopRatedHarness /></Wrapper>);
     await waitFor(() => expect(screen.getByTestId('has-data')).toHaveTextContent('yes'));
     const url = (global.fetch as jest.Mock).mock.calls[0][0] as string;
     expect(url).toContain('/movie/top_rated');
   });
 
   it('useSearchMovies is disabled when query empty', async () => {
-    render(<Wrapper><HookHarness variant="search" query="" /></Wrapper>);
+    render(<Wrapper><SearchHarness query="" /></Wrapper>);
     // Give react-query a tick
     await waitFor(() => expect(screen.getByTestId('has-data')).toHaveTextContent('no'));
     expect(global.fetch).not.toHaveBeenCalled();
   });
 
   it('useSearchMovies calls search endpoint when query provided', async () => {
-    render(<Wrapper><HookHarness variant="search" query="batman" page={3} /></Wrapper>);
+    render(<Wrapper><SearchHarness query="batman" page={3} /></Wrapper>);
     await waitFor(() => expect(screen.getByTestId('has-data')).toHaveTextContent('yes'));
     const url = (global.fetch as jest.Mock).mock.calls[0][0] as string;
     expect(url).toContain('/search/movie');
